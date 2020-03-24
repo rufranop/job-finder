@@ -1,7 +1,5 @@
 # Job Finder
 
-## About The Project
-
 Job Finder is a simple job hunting tool specifically built for software developers. Data is provided by [GitHub Jobs API](https://jobs.github.com/api).
 
 Project built with [Vue CLI](https://github.com/vuejs/vue-cli).
