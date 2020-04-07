@@ -9,7 +9,7 @@
             <sidebar-item v-for="(position, index) in positions"
                 :key="index"
                 :position="position"
-                :active="!!(position.id === selected.id)"
+                :active="(position.id === selected.id)"
                 @click="selectPosition(index)" />
         </aside>
         <selected-position v-if="selected" :position="selected" />
@@ -57,16 +57,25 @@
         },
         created() {
             this.$axios
-            .get('https://proxy.paolo.dev/positions?description=&location=')
-            .then(response => {
-                this.$store.dispatch('updatePositions', response.data);
-                this.selectPosition(0);
-                this.$store.dispatch('updateModalVisibility', false);
-                this.$store.dispatch('toggleLoading', false);
-            })
-            .catch(() => {
-                // handle errors
-            });
+                .get('https://proxy.paolo.dev/positions?description=&location=')
+                .then(response => {
+                    this.$store.dispatch('updatePositions', response.data);
+                    this.selectPosition(0);
+                    this.$store.dispatch('updateModalVisibility', false);
+                    this.$store.dispatch('toggleLoading', false);
+                })
+                .catch(() => {
+                    // handle errors
+                });
+
+            let localData = window.localStorage.getItem('savedPositions');
+
+            // check if the local storage item exists
+            // then assign the data
+            if (window.localStorage && localData) {
+                this.$store.dispatch('populateSavedPositions', JSON.parse(localData));
+            }
+
         }
     }
 </script>

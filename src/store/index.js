@@ -8,7 +8,8 @@ export const store = new Vuex.Store({
         isMobile: window.innerWidth <= 600,
         showMobileModal: false,
         positions: false,
-        isLoading: true
+        isLoading: true,
+        savedPositions: []
     },
 
     getters: {
@@ -23,6 +24,9 @@ export const store = new Vuex.Store({
         },
         getLoading: state => {
             return state.isLoading
+        },
+        getSavedPositions: state => {
+            return state.savedPositions
         }
     },
 
@@ -35,6 +39,20 @@ export const store = new Vuex.Store({
         },
         loading(state, payload) {
             state.isLoading = payload
+        },
+        addSavedPosition(state, payload) {
+            state.savedPositions.push(payload);
+            window.localStorage.setItem('savedPositions', JSON.stringify(state.savedPositions));
+        },
+        removeSavedPosition(state, positionID) {
+            state.savedPositions = state.savedPositions.filter(position => {
+                return position.id !== positionID
+            });
+            window.localStorage.setItem('savedPositions', JSON.stringify(state.savedPositions));
+        },
+        addPositions(state, payload) {
+            state.savedPositions = payload;
+            window.localStorage.setItem('savedPositions', JSON.stringify(state.savedPositions));
         }
     },
 
@@ -47,7 +65,16 @@ export const store = new Vuex.Store({
         },
         toggleLoading({commit}, payload) {
             commit('loading', payload)
+        },
+        addSavedPosition({commit}, payload) {
+            commit('addSavedPosition', payload)
+        },
+        removeSavedPosition({commit}, positionID) {
+            commit('removeSavedPosition', positionID)
+        },
+        populateSavedPositions({commit}, payload) {
+            commit('addPositions', payload)
         }
     }
-})
+});
 

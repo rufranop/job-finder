@@ -8,6 +8,7 @@
     overflow: scroll;
 
     .sidebar-item {
+        position: relative;
         background: #fff;
         display: flex;
         justify-content: space-evenly;
@@ -53,7 +54,21 @@
             }
 
             &:first-of-type {
-                width: 50%;
+                width: 75%;
+            }
+        }
+
+        svg {
+            position: absolute;
+            right: 10px;
+            top: 10px;
+            max-height: 15px;
+            max-width: 15px;
+            cursor: pointer;
+            fill: #8b8b8b;
+
+            &.saved {
+                fill: $color-blue-primary;
             }
         }
 

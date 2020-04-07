@@ -8,19 +8,35 @@
             <dt>{{ position.location }}</dt>
             <dd>Location</dd>
         </dl>
-        <dl>
-            <dt>{{ position.type }}</dt>
-            <dd>{{ position.created_at | moment("DD MMM YYYY") }}</dd>
-        </dl>
+        <svg @click.stop="toggleSavePosition()" :class="{'saved': isSaved}"><use :xlink:href="isSaved ? '#star-full' : '#star-empty'"></use></svg>
     </div>
 </template>
 
 <script>
 export default {
     props: ['position', 'active'],
+    computed: {
+        isSaved() {
+            let saved = this.$store.getters['getSavedPositions'];
+
+            let filtered  = saved.filter(position => {
+                return this.position.id === position.id
+            });
+
+            return !!filtered.length
+        }
+    },
     methods: {
         onClick() {
             this.$emit('click');
+        },
+        toggleSavePosition() {
+            if (this.isSaved) {
+                this.$store.dispatch('removeSavedPosition', this.position.id);
+                return false;
+            }
+
+            this.$store.dispatch('addSavedPosition', this.position)
         }
     }
 }
