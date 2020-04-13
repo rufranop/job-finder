@@ -1,0 +1,34 @@
+.top-bar {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 6rem;
+    border-bottom: 0.1rem solid #eee;
+    display: flex;
+    align-items: center;
+
+    .brand {
+        font-size: 2.4rem;
+        font-weight: $font-weight-bold;
+        width: 19.9rem;
+        text-align: center;
+    }
+}
+
+@include break-point(mobile) {
+    .top-bar {
+        span {
+            display: none;
+        }
+
+        .filter-form {
+            justify-content: space-evenly;
+            width: 100%;
+
+            input {
+                width: 100%;
+            }
+        }
+    }
+}

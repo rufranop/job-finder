@@ -1,0 +1,60 @@
+.filter-form {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 5.9rem;
+    width: 50.2rem;
+    z-index: 2;
+
+    svg {
+        position: absolute;
+        right: 3rem;
+        top: 50%;
+        transform: translateY(-50%);
+        height: 1.5rem;
+        width: 1.5rem;
+        fill: #8b8b8b;
+        transition: all ease-in-out 0.2s;
+    }
+
+    label {
+        height: 100%;
+        width: 100%;
+    }
+
+    input {
+        height: 100%;
+        border: 0;
+        border-left: 0.1rem solid #eee;
+        border-right: 0.1rem solid #eee;
+        padding: 0 1.5rem;
+        padding-right: 4rem;
+        font-family: $font-family;
+        color: #33383c;
+        width: 100%;
+        transition: all ease-in-out 0.2s;
+        background: #f6f7f8;
+
+        &:focus {
+            background: #fff;
+
+            + svg {
+                fill: #000;
+            }
+        }
+
+        &::placeholder {
+            font-weight: $font-weight-semi;
+        }
+    }
+
+    button {
+        background: $color-blue-primary;
+        border: 0;
+        border-radius: 0.7rem;
+        padding: 0 1.5rem;
+        height: 4rem;
+        margin-left: 1rem;
+    }
+}

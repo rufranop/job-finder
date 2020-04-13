@@ -11,17 +11,25 @@ html {
     -moz-osx-font-smoothing: grayscale;
 }
 
+:root {
+    font-size: 62.5%;
+}
+
 body {
     font-family: $font-family;
-    font-size: 14px;
-    line-height: 20px;
+    font-size: 1.4rem;
+    line-height: 2rem;
     color: #33383c;
     background: #fff;
 }
 
 #app {
     position: relative;
-    padding-top: 60px;
+    padding-top: 6rem;
     display: flex;
     min-height: 100vh;
+}
+
+.view {
+    display: flex;
 }

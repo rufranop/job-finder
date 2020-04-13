@@ -7,9 +7,11 @@ export const store = new Vuex.Store({
     state: {
         isMobile: window.innerWidth <= 600,
         showMobileModal: false,
+        selectedPosition: {},
         positions: false,
         isLoading: true,
-        savedPositions: []
+        savedPositions: [],
+        pageCount: 1
     },
 
     getters: {
@@ -27,6 +29,12 @@ export const store = new Vuex.Store({
         },
         getSavedPositions: state => {
             return state.savedPositions
+        },
+        getSelectedPosition: state => {
+            return state.selectedPosition
+        },
+        getPageCount: state => {
+            return state.pageCount
         }
     },
 
@@ -53,6 +61,12 @@ export const store = new Vuex.Store({
         addPositions(state, payload) {
             state.savedPositions = payload;
             window.localStorage.setItem('savedPositions', JSON.stringify(state.savedPositions));
+        },
+        selectPosition(state, payload) {
+            state.selectedPosition = payload
+        },
+        incrementPageCount(state, payload) {
+            state.pageCount = payload
         }
     },
 
@@ -74,6 +88,12 @@ export const store = new Vuex.Store({
         },
         populateSavedPositions({commit}, payload) {
             commit('addPositions', payload)
+        },
+        selectPosition({commit}, payload) {
+            commit('selectPosition', payload)
+        },
+        updatePageCount({commit}, payload) {
+            commit('incrementPageCount', payload)
         }
     }
 });

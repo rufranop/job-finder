@@ -1,12 +1,10 @@
 <template>
-    <div class="sidebar-item" :class="{ 'active': active }" @click="onClick()">
+    <div class="job-list-item" :class="{ 'active': active }" @click="onClick()">
+        <img :src="this.position.company_logo" alt="">
         <dl>
             <dt>{{ position.title }}</dt>
-            <dd>{{ position.company }}</dd>
-        </dl>
-        <dl>
-            <dt>{{ position.location }}</dt>
-            <dd>Location</dd>
+            <dd>{{ shortenedLocation }}</dd>
+            <dd>{{ date }}</dd>
         </dl>
         <svg @click.stop="toggleSavePosition()" :class="{'saved': isSaved}"><use :xlink:href="isSaved ? '#star-full' : '#star-empty'"></use></svg>
     </div>
@@ -24,6 +22,15 @@ export default {
             });
 
             return !!filtered.length
+        },
+        shortenedLocation() {
+            let location = this.position.location;
+            let maxLength = 30;
+
+            return location.length <= maxLength ? location : location.slice(0, maxLength) + '...'
+        },
+        date() {
+            return this.$dayjs(this.position.created_at).format('DD MMM YYYY')
         }
     },
     methods: {

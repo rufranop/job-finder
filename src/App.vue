@@ -1,72 +1,50 @@
 <template>
     <div id="app">
-        <loader />
-        <nav>
-            <span>Job Finder</span>
+        <div class="top-bar">
+            <span class="brand">Job Finder</span>
             <filter-form />
-        </nav>
-        <aside class="sidebar" v-if="positions">
-            <sidebar-item v-for="(position, index) in positions"
-                :key="index"
-                :position="position"
-                :active="(position.id === selected.id)"
-                @click="selectPosition(index)" />
-        </aside>
-        <selected-position v-if="selected" :position="selected" />
+        </div>
+        <side-nav />
+        <router-view />
+        <loader />
         <icons />
     </div>
 </template>
 
 <script>
-    import SelectedPosition from './components/SelectedPosition'
-    import SidebarItem from './components/SidebarItem'
     import Icons from './components/Icons'
-    import FilterForm from './components/FilterForm'
     import Loader from './components/Loader'
+    import FilterForm from './components/FilterForm'
+    import SideNav from './components/SideNav'
 
     export default {
         name: 'app',
         components: {
-            SelectedPosition,
-            SidebarItem,
+            SideNav,
             Icons,
-            FilterForm,
-            Loader
+            Loader,
+            FilterForm
         },
         computed: {
             isMobile() {
                 return this.$store.getters['getMobileStatus']
             },
-            positions() {
-                return this.$store.getters['getPositions']
-            }
-        },
-        data() {
-            return {
-                selected: false
-            }
-        },
-        methods: {
-            selectPosition(index) {
-                this.selected = this.positions[index];
-
-                if (this.isMobile) {
-                    this.$store.dispatch('updateModalVisibility', true);
-                }
+            pageCount() {
+                return this.$store.getters['getPageCount']
             }
         },
         created() {
             this.$axios
-                .get('https://proxy.paolo.dev/positions?description=&location=')
-                .then(response => {
-                    this.$store.dispatch('updatePositions', response.data);
-                    this.selectPosition(0);
-                    this.$store.dispatch('updateModalVisibility', false);
-                    this.$store.dispatch('toggleLoading', false);
-                })
-                .catch(() => {
-                    // handle errors
-                });
+                .get(`https://cors-anywhere.herokuapp.com/https://jobs.github.com/positions.json?page=${this.pageCount}`)
+                    .then(response => {
+                        this.$store.dispatch('updatePositions', response.data);
+                        this.$store.dispatch('selectPosition', response.data[0]);
+                        this.$store.dispatch('updateModalVisibility', false);
+                        this.$store.dispatch('toggleLoading', false);
+                    })
+                    .catch(() => {
+                        // handle errors
+                    });
 
             let localData = window.localStorage.getItem('savedPositions');
 
